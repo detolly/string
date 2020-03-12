@@ -5,7 +5,7 @@ namespace string {
 
 class string {
 	private:
-		unsigned long		m_bufferSize = 128;
+		unsigned long		m_bufferSize = 64;
 		unsigned int		m_length = 0;
 		char*				m_buffer;
 

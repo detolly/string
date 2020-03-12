@@ -3,7 +3,7 @@
 namespace detolly {
 namespace string {
 
-#define STRING_BUFFERSIZE 64;
+#define STRING_BUFFERSIZE 32;
 
 class string {
 	private:

@@ -1,12 +1,38 @@
-#include "stdio.h"
+#include <cstdio>
+#include <iostream>
 #include "string.h"
+#include "chrono"
+#include <string>
 
 using namespace detolly::string;
 
-int main() {
+int Test() {
+	{
+		string a;
+		string b = "b";
+		auto t1 = std::chrono::high_resolution_clock::now();
+		for (int i = 0; i < 100000; i++) {
+			a = a + b;
+		}
+		auto t2 = std::chrono::high_resolution_clock::now();
+		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+		std::cout << "Time: " << time << std::endl;
+	}
+	{
+		std::string a;
+		std::string b = "b";
+		auto t1 = std::chrono::high_resolution_clock::now();
+		for (int i = 0; i < 100000; i++) {
+			a = a + b;
+		}
+		auto t2 = std::chrono::high_resolution_clock::now();
+		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+		std::cout << "Time: " << time << std::endl;
+	}
 
-	string b = "a";
-	string username = "tSparkles";
-	string password = "dude you're a legend bro";
-	printf(username + " " + password + "\n");
+	return 0;
+}
+
+int main() {
+	Test();
 }

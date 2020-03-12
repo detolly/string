@@ -31,6 +31,7 @@ string::string(string& string) {
 string::string(const char* chars) {
 	int len = strlen(chars);
 	m_length = len;
+	m_buffer = nullptr;
 	if (len < m_bufferSize) {
 		m_buffer = new char[m_bufferSize];
 		memset(m_buffer, 0, m_bufferSize);
@@ -60,8 +61,7 @@ string::~string() {
 }
 
 void string::expand_buffer(int len) {
-	if (m_buffer)
-		delete[] m_buffer;
+	delete[] m_buffer;
 	m_bufferSize = len << 1;
 	m_buffer = new char[m_bufferSize];
 	memset(m_buffer, 0, m_bufferSize);

@@ -23,9 +23,17 @@ class string {
 		const char*			chars();
 		unsigned int		length();
 
+		unsigned int		indexOf(const char*);
+
+		string				substring(unsigned int);
+		string				substring(unsigned int, unsigned int);
+
 		string& operator =	(const char*);
-		string& operator +=	(string&);
+		string& operator =	(string&);
+
 		string& operator +=	(const char*);
+		string& operator +=	(string&);
+
 		string  operator +	(const char*);
 		string  operator +	(string&);
 

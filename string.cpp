@@ -87,6 +87,11 @@ string& string::operator=(const char* chars) {
 	return *this;
 }
 
+string& string::operator=(string& string) {
+	string::operator=(string.chars());
+	return *this;
+}
+
 string& string::operator+=(const char* chars) {
 	this->add(chars);
 	return *this;
@@ -101,7 +106,7 @@ string& string::operator+=(string& string)
 string string::operator+(const char* chars) {
 	string ret(this->chars());
 	ret.add(chars);
-	return(ret);
+	return ret;
 }
 
 string string::operator+(string& string) {
@@ -115,6 +120,7 @@ void string::add(const char* chars) {
 	int len = m_length;
 	if (ext_len + len < m_bufferSize) {
 		memcpy((this->m_buffer+len), chars, ext_len);
+		this->m_length += ext_len;
 	} else {
 		this->m_length = ext_len + len;
 		char* temp = new char[len];

@@ -3,6 +3,5 @@
 Debug/
 Release/
 x64/
-CppProperties.json
 *.sln
 *.vcxproj*

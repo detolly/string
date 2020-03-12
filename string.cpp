@@ -5,7 +5,7 @@
 namespace detolly {
 namespace string {
 	
-
+/*
 inline int strlen(const char* chars) {
 	int i = 0;
 	while(1) {
@@ -14,11 +14,12 @@ inline int strlen(const char* chars) {
 		i++;
 	}
 }
+*/
 
 
 string::string() {
-	this->m_buffer = new char[this->m_bufferSize];
-	memset(this->m_buffer, 0, this->m_bufferSize);
+	m_buffer = new char[m_bufferSize];
+	memset(m_buffer, 0, m_bufferSize);
 }
 
 string::string(string& string) {
@@ -28,29 +29,29 @@ string::string(string& string) {
 }
 
 string::string(const char* chars) {
-	this->m_buffer = new char[this->m_bufferSize];
-	memset(this->m_buffer, 0, this->m_bufferSize);
 	int len = strlen(chars);
 	m_length = len;
-	if (len < this->m_bufferSize) {
-		memcpy(this->m_buffer, chars, len);
+	if (len < m_bufferSize) {
+		m_buffer = new char[m_bufferSize];
+		memset(m_buffer, 0, m_bufferSize);
+		memcpy(m_buffer, chars, len);
 	} else {
 		expand_buffer(len);
-		memcpy(this->m_buffer, chars, len);
+		memcpy(m_buffer, chars, len);
 	}
 }
 
 string::string(char* chars) {
-	this->m_buffer = new char[this->m_bufferSize];
-	memset(this->m_buffer, 0, this->m_bufferSize);
 	int len = strlen(chars);
 	m_length = len;
-	if (len < this->m_bufferSize) {
-		memcpy(this->m_buffer, chars, len);
+	if (len < m_bufferSize) {
+		m_buffer = new char[m_bufferSize];
+		memset(m_buffer, 0, m_bufferSize);
+		memcpy(m_buffer, chars, len);
 	}
 	else {
 		expand_buffer(len);
-		memcpy(this->m_buffer, chars, len);
+		memcpy(m_buffer, chars, len);
 	}
 }
 
@@ -59,10 +60,11 @@ string::~string() {
 }
 
 void string::expand_buffer(int len) {
-	delete[] this->m_buffer;
-	this->m_bufferSize = this->m_bufferSize*1.2;
-	this->m_buffer = new char[this->m_bufferSize];
-	memset(this->m_buffer, 0, this->m_bufferSize);
+	if (m_buffer)
+		delete[] m_buffer;
+	m_bufferSize = len << 1;
+	m_buffer = new char[m_bufferSize];
+	memset(m_buffer, 0, m_bufferSize);
 }
 
 const char* string::chars() {
@@ -93,25 +95,25 @@ string& string::operator=(string& string) {
 }
 
 string& string::operator+=(const char* chars) {
-	this->add(chars);
+	add(chars);
 	return *this;
 }
 
 string& string::operator+=(string& string)
 {
-	int newlen = string.m_length + this->m_length;
+	int newlen = string.m_length + m_length;
 	if (newlen < m_bufferSize) {
-		memcpy((this->m_buffer + m_length), string.chars(), string.m_length);
-		this->m_length = newlen;
+		memcpy((m_buffer + m_length), string.chars(), string.m_length);
+		m_length = newlen;
 	}
 	else {
 		char* temp = new char[m_length];
-		memcpy(temp, this->m_buffer, m_length);
+		memcpy(temp, m_buffer, m_length);
 		expand_buffer(newlen);
-		memcpy(this->m_buffer, temp, m_length);
+		memcpy(m_buffer, temp, m_length);
 		delete[] temp;
-		memcpy((this->m_buffer + m_length), string.chars(), string.m_length);
-		this->m_length = newlen;
+		memcpy((m_buffer + m_length), string.chars(), string.m_length);
+		m_length = newlen;
 	}
 	return *this;
 }
@@ -123,25 +125,25 @@ string string::operator+(const char* chars) {
 }
 
 string string::operator+(string& string) {
-	detolly::string::string ret(this->chars());
-	ret.operator+=(string);
+	detolly::string::string ret(chars());
+	ret += string;
 	return ret;
 }
 
 void string::add(const char* chars) {
 	int ext_len = strlen(chars);
-	int newlen = this->m_length + ext_len;
+	int newlen = m_length + ext_len;
 	if (newlen < m_bufferSize) {
-		memcpy((this->m_buffer + this->m_length), chars, ext_len);
-		this->m_length = newlen;
+		memcpy((m_buffer + m_length), chars, ext_len);
+		m_length = newlen;
 	} else {
-		char* temp = new char[this->m_length];
-		memcpy(temp, this->m_buffer, this->m_length);
+		char* temp = new char[m_length];
+		memcpy(temp, m_buffer, m_length);
 		expand_buffer(newlen);
-		memcpy(this->m_buffer, temp, this->m_length);
+		memcpy(m_buffer, temp, m_length);
 		delete[] temp;
-		memcpy((this->m_buffer + this->m_length), chars, ext_len);
-		this->m_length = newlen;
+		memcpy((m_buffer + m_length), chars, ext_len);
+		m_length = newlen;
 	}
 }
 

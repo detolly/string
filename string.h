@@ -3,9 +3,11 @@
 namespace detolly {
 namespace string {
 
+#define STRING_BUFFERSIZE 64;
+
 class string {
 	private:
-		unsigned long		m_bufferSize = 64;
+		unsigned long		m_bufferSize = STRING_BUFFERSIZE;
 		unsigned int		m_length = 0;
 		char*				m_buffer;
 

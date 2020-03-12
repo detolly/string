@@ -9,9 +9,9 @@ using namespace detolly::string;
 int main() {
 	{
 		string a;
-		string b = "c";
+		string b = "a";
 		auto t1 = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < 100000000; i++) {
+		for (int i = 0; i < 10000000; i++) {
 			a += b;
 		}
 		auto t2 = std::chrono::high_resolution_clock::now();
@@ -20,9 +20,9 @@ int main() {
 	}
 	{
 		std::string a;
-		std::string b = "c";
+		std::string b = "b";
 		auto t1 = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < 100000000; i++) {
+		for (int i = 0; i < 10000000; i++) {
 			a += b;
 		}
 		auto t2 = std::chrono::high_resolution_clock::now();

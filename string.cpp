@@ -5,7 +5,7 @@
 namespace detolly {
 namespace string {
 	
-/*
+
 inline int strlen(const char* chars) {
 	int i = 0;
 	while(1) {
@@ -14,7 +14,7 @@ inline int strlen(const char* chars) {
 		i++;
 	}
 }
-*/
+
 
 string::string() {
 	this->m_buffer = new char[this->m_bufferSize];
@@ -60,7 +60,7 @@ string::~string() {
 
 void string::expand_buffer(int len) {
 	delete[] this->m_buffer;
-	this->m_bufferSize = len*2;
+	this->m_bufferSize = this->m_bufferSize*1.2;
 	this->m_buffer = new char[this->m_bufferSize];
 	memset(this->m_buffer, 0, this->m_bufferSize);
 }
@@ -99,7 +99,20 @@ string& string::operator+=(const char* chars) {
 
 string& string::operator+=(string& string)
 {
-	this->add(string.chars());
+	int newlen = string.m_length + this->m_length;
+	if (newlen < m_bufferSize) {
+		memcpy((this->m_buffer + m_length), string.chars(), string.m_length);
+		this->m_length = newlen;
+	}
+	else {
+		char* temp = new char[m_length];
+		memcpy(temp, this->m_buffer, m_length);
+		expand_buffer(newlen);
+		memcpy(this->m_buffer, temp, m_length);
+		delete[] temp;
+		memcpy((this->m_buffer + m_length), string.chars(), string.m_length);
+		this->m_length = newlen;
+	}
 	return *this;
 }
 
@@ -111,24 +124,24 @@ string string::operator+(const char* chars) {
 
 string string::operator+(string& string) {
 	detolly::string::string ret(this->chars());
-	ret.add(string.chars());
+	ret.operator+=(string);
 	return ret;
 }
 
 void string::add(const char* chars) {
 	int ext_len = strlen(chars);
-	int len = m_length;
-	if (ext_len + len < m_bufferSize) {
-		memcpy((this->m_buffer+len), chars, ext_len);
-		this->m_length += ext_len;
+	int newlen = this->m_length + ext_len;
+	if (newlen < m_bufferSize) {
+		memcpy((this->m_buffer + this->m_length), chars, ext_len);
+		this->m_length = newlen;
 	} else {
-		this->m_length = ext_len + len;
-		char* temp = new char[len];
-		memcpy(temp, this->m_buffer, len);
-		expand_buffer(m_length);
-		memcpy(this->m_buffer, temp, len);
+		char* temp = new char[this->m_length];
+		memcpy(temp, this->m_buffer, this->m_length);
+		expand_buffer(newlen);
+		memcpy(this->m_buffer, temp, this->m_length);
 		delete[] temp;
-		memcpy((this->m_buffer + len), chars, ext_len);
+		memcpy((this->m_buffer + this->m_length), chars, ext_len);
+		this->m_length = newlen;
 	}
 }
 

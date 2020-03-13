@@ -9,8 +9,8 @@ using namespace detolly::string;
 int Test() {
 	{
 		string a;
-		string b = "bbbb";
-		//const char* b = "bbbb";
+		//string b = "bbbb";
+		const char* b = "bbbb";
 		auto t1 = std::chrono::high_resolution_clock::now();
 		for (int i = 0; i < 100000; i++) {
 			//still spend a lot of time on this particular problem
@@ -22,8 +22,8 @@ int Test() {
 	}
 	{
 		std::string a;
-		std::string b = "bbbb";
-		//const char* b = "bbbb";
+		//std::string b = "bbbb";
+		const char* b = "bbbb";
 		auto t1 = std::chrono::high_resolution_clock::now();
 		for (int i = 0; i < 100000; i++) {
 			a = a + b;

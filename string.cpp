@@ -17,54 +17,59 @@ inline int strlen(const char* chars) {
 */
 
 
-string::string() {
+string::string()
+	: m_buffer(nullptr) 
+{
 	m_buffer = new char[m_bufferSize];
 	m_length = 0;
 	memset(m_buffer, 0, m_bufferSize);
 }
 
-string::string(string& string) {
+string::string(string& string)
+	: m_buffer(nullptr)
+{
 	m_bufferSize = string.m_bufferSize;
-	m_buffer = string.m_buffer;
+	m_buffer = new char[m_bufferSize];
+	memset(m_buffer, 0, m_bufferSize);
+	memcpy(m_buffer, string.m_buffer, string.m_length);
 	m_length = string.m_length;
 }
 
-string::string(const char* chars) {
-	int len = strlen(chars);
-	m_length = len;
-	m_buffer = nullptr;
-	if (len < m_bufferSize) {
-		m_buffer = new char[m_bufferSize];
-		memset(m_buffer, 0, m_bufferSize);
-		memcpy(m_buffer, chars, len);
-	} else {
-		expand_buffer(len);
-		memcpy(m_buffer, chars, len);
-	}
+string::string(const char* chars)
+ : m_buffer(nullptr)
+{
+	createOrExpandBufferFromChars(chars);
 }
 
-string::string(char* chars) {
+string::string(char* chars)
+	: m_buffer(nullptr)
+{
+	createOrExpandBufferFromChars(chars);
+}
+
+void string::createOrExpandBufferFromChars(const char* chars)
+{
 	int len = strlen(chars);
-	m_length = len;
 	if (len < m_bufferSize) {
 		m_buffer = new char[m_bufferSize];
 		memset(m_buffer, 0, m_bufferSize);
 		memcpy(m_buffer, chars, len);
+		m_length = len;
 	}
 	else {
 		expand_buffer(len);
 		memcpy(m_buffer, chars, len);
+		m_length = len;
 	}
 }
 
 string::~string() {
-	if (m_shouldDispose)
-		delete[] m_buffer;
+	delete[] m_buffer;
 }
 
 void string::expand_buffer(int len) {
 	delete[] m_buffer;
-	m_bufferSize = len * 2;
+	m_bufferSize = len * 1.25;
 	m_buffer = new char[m_bufferSize];
 	memset(m_buffer, 0, m_bufferSize);
 }
@@ -125,14 +130,14 @@ string& string::operator+=(string& string)
 
 string string::operator+(const char* chars) {
 	string ret(this->chars());
-	ret.m_shouldDispose = false;
+	//ret.m_shouldDispose = false;
 	ret.add(chars);
 	return ret;
 }
 
 string string::operator+(string& string) {
 	detolly::string::string ret(chars());
-	ret.m_shouldDispose = false;
+	//ret.m_shouldDispose = false;
 	ret += string;
 	return ret;
 }

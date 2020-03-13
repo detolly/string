@@ -10,10 +10,11 @@ class string {
 		unsigned long		m_bufferSize = STRING_BUFFERSIZE;
 		unsigned int		m_length = 0;
 		char*				m_buffer;
-		bool				m_shouldDispose = true;
+		//bool				m_shouldDispose = true;
 
-		void				expand_buffer(int);
 		void				add(const char*);
+		void				createOrExpandBufferFromChars(const char* chars);
+		void				expand_buffer(int);
 
 	public:
 		string				();

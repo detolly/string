@@ -60,7 +60,13 @@ int main()
 	//string a = "Thomas is a person";
 	//string b = a.substring(3, 3);
 	//printf((b + "a\n").chars());
-	
-	Test();
+
+	using namespace detolly::string;
+
+	string a = "$5Th$5omas er$5 en$5 kar som $5ikke sk$5al så $5mye$5";
+	a -= string("$5");
+	printf(a.chars());
+
+	//Test();
 
 }

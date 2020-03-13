@@ -274,7 +274,6 @@ int string::indexOf(const char* searchString, unsigned start) const
 string string::substring(unsigned index, unsigned len) const {
 	if (index >= m_length)
 		return string();
-	
 	if (len == 0)
 		len = m_length - index;
 

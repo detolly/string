@@ -42,7 +42,7 @@ class string {
 		string	operator +	(string& const)						const;
 
 		string	operator *	(unsigned)						const;
-		string&	operator *= (unsigned);
+		string&	operator *=	(unsigned);
 
 		string& operator -=	(string& const);
 		string& operator -=	(const char*);

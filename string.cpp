@@ -160,10 +160,45 @@ void string::add(const char* chars)
 	}
 }
 
-unsigned int string::length() const
+size_t string::length() const
 {
 	return m_length;
 }
+
+int string::indexOf(const char* searchString, unsigned start) const
+{
+	int searchStringLen = strlen(searchString);
+	if (searchStringLen > m_length)
+		return STRING_INDEX_NOT_FOUND;
+	int a = 1;
+	for (int i = start; i < m_length; i++) {
+		if (m_buffer[i] == searchString[a - 1])
+			if (a == searchStringLen)
+				return i - a + 1;
+			else
+				a++;
+		else
+			a = 1;
+	}
+	return STRING_INDEX_NOT_FOUND;
+}
+
+string string::substring(unsigned int index, unsigned len) const {
+	if (index >= m_length)
+		return string();
+	
+	if (len == 0)
+		len = m_length - index;
+
+	char* buffer = new char[len+1];
+	buffer[len] = '\0';
+	memcpy(buffer, (m_buffer+index), len);
+	auto ret = string(buffer);
+	delete[] buffer;
+
+	return ret;
+}
+
 
 const char* string::chars() const
 {

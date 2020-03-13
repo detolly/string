@@ -21,10 +21,19 @@ void TestTypes(const char* stringName, const char* testName, stringtype t, testt
 
 int main()
 {
+	/*
 	detolly::string::string a;
 	detolly::string::string testTypeA;
 	TestTypes("detolly::string::string", "detolly::string::string", a, testTypeA);
 	std::string b;
 	std::string testTypeB;
 	TestTypes("std::string", "std::string", b, testTypeB);
+	*/
+
+	using namespace detolly::string;
+
+	string a = "Thomas is a person";
+	string b = a.substring(3, 3);
+	printf((b + "a\n").chars());
+
 }

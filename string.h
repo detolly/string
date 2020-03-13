@@ -3,12 +3,13 @@
 namespace detolly {
 namespace string {
 
-#define STRING_BUFFERSIZE 32;
+#define STRING_BUFFERSIZE 32
+#define STRING_INDEX_NOT_FOUND -1
 
 class string {
 	private:
 		unsigned long		m_bufferSize = STRING_BUFFERSIZE;
-		unsigned int		m_length = 0;
+		size_t				m_length = 0;
 		char*				m_buffer;
 		//bool				m_shouldDispose = true;
 
@@ -25,12 +26,11 @@ class string {
 		~string				();
 
 		const char*			chars()										const;
-		unsigned int		length()									const;
+		size_t				length()									const;
 
-		unsigned int		indexOf(const char* const)					const;
+		int					indexOf(const char* const, unsigned=0)		const;
 
-		string				substring(unsigned int)						const;
-		string				substring(unsigned int, unsigned int)		const;
+		string				substring(unsigned, unsigned=0)				const;
 
 		string& operator =	(const char*);
 		string& operator =	(string& const);

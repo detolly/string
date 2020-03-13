@@ -47,35 +47,8 @@ string::string(char* chars)
 	createOrExpandBufferFromChars(chars);
 }
 
-void string::createOrExpandBufferFromChars(const char* chars)
-{
-	int len = strlen(chars);
-	if (len < m_bufferSize) {
-		m_buffer = new char[m_bufferSize];
-		memset(m_buffer, 0, m_bufferSize);
-		memcpy(m_buffer, chars, len);
-		m_length = len;
-	}
-	else {
-		expand_buffer(len);
-		memcpy(m_buffer, chars, len);
-		m_length = len;
-	}
-}
-
 string::~string() {
 	delete[] m_buffer;
-}
-
-void string::expand_buffer(int len) {
-	delete[] m_buffer;
-	m_bufferSize = len * 1.25;
-	m_buffer = new char[m_bufferSize];
-	memset(m_buffer, 0, m_bufferSize);
-}
-
-const char* string::chars() {
-	return m_buffer;
 }
 
 /*
@@ -99,12 +72,14 @@ string& string::operator=(const char* chars) {
 	return *this;
 }
 
-string& string::operator=(string& string) {
+string& string::operator=(string& string)
+{
 	*this = string.chars();
 	return *this;
 }
 
-string& string::operator+=(const char* chars) {
+string& string::operator+=(const char* chars)
+{
 	add(chars);
 	return *this;
 }
@@ -128,21 +103,47 @@ string& string::operator+=(string& string)
 	return *this;
 }
 
-string string::operator+(const char* chars) {
+string string::operator+(const char* chars)
+{
 	string ret(this->chars());
 	//ret.m_shouldDispose = false;
 	ret.add(chars);
 	return ret;
 }
 
-string string::operator+(string& string) {
+string string::operator+(string& string)
+{
 	detolly::string::string ret(chars());
 	//ret.m_shouldDispose = false;
 	ret += string;
 	return ret;
 }
 
-void string::add(const char* chars) {
+void string::createOrExpandBufferFromChars(const char* chars)
+{
+	int len = strlen(chars);
+	if (len < m_bufferSize) {
+		m_buffer = new char[m_bufferSize];
+		memset(m_buffer, 0, m_bufferSize);
+		memcpy(m_buffer, chars, len);
+		m_length = len;
+	}
+	else {
+		expand_buffer(len);
+		memcpy(m_buffer, chars, len);
+		m_length = len;
+	}
+}
+
+void string::expand_buffer(int len) {
+	delete[] m_buffer;
+	m_bufferSize = len * 1.25;
+	m_buffer = new char[m_bufferSize];
+	memset(m_buffer, 0, m_bufferSize);
+}
+
+void string::add(const char* chars)
+{
 	int ext_len = strlen(chars);
 	int newlen = m_length + ext_len;
 	if (newlen < m_bufferSize) {
@@ -159,8 +160,14 @@ void string::add(const char* chars) {
 	}
 }
 
-unsigned int string::length() {
+unsigned int string::length() const
+{
 	return m_length;
+}
+
+const char* string::chars() const
+{
+	return m_buffer;
 }
 
 }

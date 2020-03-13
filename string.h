@@ -24,22 +24,22 @@ class string {
 
 		~string				();
 
-		const char*			chars();
-		unsigned int		length();
+		const char*			chars()										const;
+		unsigned int		length()									const;
 
-		unsigned int		indexOf(const char*);
+		unsigned int		indexOf(const char* const)					const;
 
-		string				substring(unsigned int);
-		string				substring(unsigned int, unsigned int);
+		string				substring(unsigned int)						const;
+		string				substring(unsigned int, unsigned int)		const;
 
 		string& operator =	(const char*);
-		string& operator =	(string&);
+		string& operator =	(string& const);
 
 		string& operator +=	(const char*);
-		string& operator +=	(string&);
+		string& operator +=	(string& const);
 
 		string  operator +	(const char*);
-		string  operator +	(string&);
+		string  operator +	(string& const);
 
 		//operator const char* ();
 	};

@@ -1,44 +1,30 @@
 #include <cstdio>
 #include <iostream>
 #include "string.h"
-#include "chrono"
+#include <chrono>
 #include <string>
 
-using namespace detolly::string;
-
-int Test() {
+template<typename stringtype, typename testtype>
+void TestTypes(const char* stringName, const char* testName, stringtype t, testtype test)
+{
+	test = "AA_b5";
 	{
-		string a;
-		//string b = "bbbb";
-		const char* b = "bbbb";
-		auto t1 = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < 100000; i++) {
-			//still spend a lot of time on this particular problem
-			a = a + b;
+		std::chrono::time_point t1 = std::chrono::high_resolution_clock::now();
+		for (int i = 0; i < 10000; i++) {
+			t = t + test;
 		}
-		auto t2 = std::chrono::high_resolution_clock::now();
+		std::chrono::time_point t2 = std::chrono::high_resolution_clock::now();
 		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-		std::cout << "Time: " << time << std::endl;
+		printf("%s in operator = a + b (%s) : %ll", name, testName, time);
 	}
-	{
-		std::string a;
-		//std::string b = "bbbb";
-		const char* b = "bbbb";
-		auto t1 = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < 100000; i++) {
-			a = a + b;
-		}
-		auto t2 = std::chrono::high_resolution_clock::now();
-		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-		std::cout << "Time: " << time << std::endl;
-	}
-
-	return 0;
 }
 
-int main() {
-	string a = "Thomas";
-	string b = "Someone else";
-	printf((a + " " + b).chars());
-	Test();
+int main()
+{
+	detolly::string::string a;
+	detolly::string::string testTypeA;
+	TestTypes("detolly::string::string", "detolly::string::string", a, testTypeA);
+	std::string b;
+	std::string testTypeB;
+	TestTypes("std::string", "std::string", b, testTypeB);
 }

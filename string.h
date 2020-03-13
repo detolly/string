@@ -18,8 +18,8 @@ class string {
 
 	public:
 		string				();
-		string				(const char*);
 		string				(char*);
+		string				(const char*);
 		string				(string&);
 
 		~string				();

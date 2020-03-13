@@ -25,7 +25,7 @@ string::string()
 	memset(m_buffer, 0, m_bufferSize);
 }
 
-string::string(string& string)
+string::string(const string& string)
 	: m_buffer(nullptr)
 {
 	m_bufferSize = string.m_bufferSize;
@@ -103,7 +103,7 @@ string& string::operator+=(string& string)
 	return *this;
 }
 
-string string::operator+(const char* chars)
+string string::operator+(const char* chars) const
 {
 	string ret(this->chars());
 	//ret.m_shouldDispose = false;
@@ -111,13 +111,101 @@ string string::operator+(const char* chars)
 	return ret;
 }
 
-string string::operator+(string& string)
+string string::operator+(string& string) const
 {
 	detolly::string::string ret(chars());
 	//ret.m_shouldDispose = false;
 	ret += string;
 	return ret;
 }
+
+string string::operator*(unsigned times) const
+{
+	string ret;
+	if (times == 0)
+		return ret;
+	if (times == 1)
+		return string(*this);
+
+	char* buffer = new char[m_length+1];
+	memcpy(buffer, m_buffer, m_length+1);
+	for (int i = 0; i < times; i++)
+		ret.add(buffer);
+
+	delete[] buffer;
+	return ret;
+}
+
+string& string::operator-=(const char* chars)
+{
+	int len = strlen(chars);
+	if (len > m_length || len == 0)
+		return *this;
+	int index = indexOf(chars);
+	if (index == STRING_INDEX_NOT_FOUND)
+		return *this;
+
+	char* buffer = new char[m_length+1];
+	memset(buffer, 0, m_length+1);
+	
+	int bufferIndex = 0;
+	int lastIndex = 0;
+
+	while (index > STRING_INDEX_NOT_FOUND)
+	{
+		int copyLen = index-lastIndex;
+		memcpy(buffer+bufferIndex, m_buffer+lastIndex, copyLen);
+		bufferIndex += copyLen;
+		lastIndex = index+len;
+		index = indexOf(chars, lastIndex+1);
+	}
+	memcpy(buffer+bufferIndex, m_buffer+lastIndex, m_length-lastIndex);
+	memset(m_buffer, 0, m_length);
+	memcpy(m_buffer, buffer, strlen(buffer));
+
+	delete[] buffer;
+	return *this;
+}
+
+string& string::operator-=(string& string)
+{
+	operator-=(string.chars());
+	return *this;
+}
+
+string string::operator-(const char* chars) const
+{
+	string ret(this->chars());
+	ret -= chars;
+	return ret;
+}
+
+string string::operator-(string& string) const
+{
+	detolly::string::string ret(this->chars());
+	ret -= string.chars();
+	return ret;
+}
+
+string& string::operator*=(unsigned times) {
+	if (times == 0)
+	{
+		memset(m_buffer, 0, m_length);
+		return *this;
+	}
+	if (times == 1)
+		return *this;
+	
+	char* buffer = new char[m_length+1];
+	memcpy(buffer, m_buffer, m_length+1);
+	for (int i = 0; i < times-1; i++)
+		add(buffer);
+
+	delete[] buffer;
+	return *this;
+}
+
+
 
 void string::createOrExpandBufferFromChars(const char* chars)
 {
@@ -135,7 +223,7 @@ void string::createOrExpandBufferFromChars(const char* chars)
 	}
 }
 
-void string::expand_buffer(int len) {
+void string::expand_buffer(unsigned len) {
 	delete[] m_buffer;
 	m_bufferSize = len * 1.25;
 	m_buffer = new char[m_bufferSize];

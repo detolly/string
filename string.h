@@ -15,13 +15,13 @@ class string {
 
 		void				add(const char*);
 		void				createOrExpandBufferFromChars(const char* chars);
-		void				expand_buffer(int);
+		void				expand_buffer(unsigned);
 
 	public:
 		string				();
 		string				(char*);
 		string				(const char*);
-		string				(string&);
+		string				(const string&);
 
 		~string				();
 
@@ -32,14 +32,23 @@ class string {
 
 		string				substring(unsigned, unsigned=0)				const;
 
-		string& operator =	(const char*);
-		string& operator =	(string& const);
+		string&	operator =	(const char*);
+		string&	operator =	(string& const);
 
-		string& operator +=	(const char*);
-		string& operator +=	(string& const);
+		string&	operator +=	(const char*);
+		string&	operator +=	(string& const);
 
-		string  operator +	(const char*);
-		string  operator +	(string& const);
+		string	operator +	(const char*)								const;
+		string	operator +	(string& const)								const;
+
+		string	operator *	(unsigned)									const;
+		string&	operator *= (unsigned);
+
+		string& operator -=	(string& const);
+		string& operator -=	(const char*);
+
+		string operator -	(string& const)								const;
+		string operator -	(const char*)								const;
 
 		//operator const char* ();
 	};

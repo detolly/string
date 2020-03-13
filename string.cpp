@@ -51,11 +51,11 @@ string::~string() {
 	delete[] m_buffer;
 }
 
-/*
-string::operator const char* () {
-	return m_buffer;
-}
-*/
+// out of order kekw
+//string::operator const char* () {
+//	return m_buffer;
+//}
+
 
 string& string::operator=(const char* chars) {
 	int len = strlen(chars);

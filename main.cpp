@@ -3,7 +3,7 @@
 #include "string.h"
 #include <chrono>
 #include <string>
-
+/*
 template<typename stringtype, typename testtype>
 void TestTypes(const char* stringName, const char* testName, stringtype t, testtype test)
 {
@@ -18,6 +18,33 @@ void TestTypes(const char* stringName, const char* testName, stringtype t, testt
 		printf("%s in operator = a + b (%s) : %ll", name, testName, time);
 	}
 }
+*/
+void Test() {
+	{
+		detolly::string::string a;
+		//detolly::string::string b = "bbbb";
+		const char* b = "bbbb";
+		auto t1 = std::chrono::high_resolution_clock::now();
+		for (int i = 0; i < 100000000; i++) {
+			a += b;
+		}
+		auto t2 = std::chrono::high_resolution_clock::now();
+		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+		std::cout << "detolly::string::string \t-> " << time << " " << a.length() << std::endl;
+	}
+	{
+		std::string a;
+		//std::string b = "bbbb";
+		const char* b = "bbbb";
+		auto t1 = std::chrono::high_resolution_clock::now();
+		for (int i = 0; i < 100000000; i++) {
+			a += b;
+		}
+		auto t2 = std::chrono::high_resolution_clock::now();
+		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+		std::cout << "std::string \t\t\t-> " << time << " " << a.length() << std::endl;
+	}
+}
 
 int main()
 {
@@ -30,10 +57,10 @@ int main()
 	TestTypes("std::string", "std::string", b, testTypeB);
 	*/
 
-	using namespace detolly::string;
-
-	string a = "Thomas is a person";
-	string b = a.substring(3, 3);
-	printf((b + "a\n").chars());
+	//string a = "Thomas is a person";
+	//string b = a.substring(3, 3);
+	//printf((b + "a\n").chars());
+	
+	Test();
 
 }

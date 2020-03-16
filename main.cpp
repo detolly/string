@@ -22,27 +22,27 @@ void TestTypes(const char* stringName, const char* testName, stringtype t, testt
 void Test() {
 	{
 		detolly::string::string a;
-		//detolly::string::string b = "bbbb";
-		const char* b = "bbbb";
+		detolly::string::string b = "bbbb";
+		//const char* b = "bbbb";
 		auto t1 = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < 100000000; i++) {
-			a += b;
+		for (int i = 0; i < 100000; i++) {
+			a = a + b;
 		}
 		auto t2 = std::chrono::high_resolution_clock::now();
 		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-		std::cout << "detolly::string::string \t-> " << time << " " << a.length() << std::endl;
+		std::cout << "detolly::string::string \t-> " << time << "\t" << a.length() << std::endl;
 	}
 	{
 		std::string a;
-		//std::string b = "bbbb";
-		const char* b = "bbbb";
+		std::string b = "bbbb";
+		//const char* b = "bbbb";
 		auto t1 = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < 100000000; i++) {
-			a += b;
+		for (int i = 0; i < 100000; i++) {
+			a = a + b;
 		}
 		auto t2 = std::chrono::high_resolution_clock::now();
 		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-		std::cout << "std::string \t\t\t-> " << time << " " << a.length() << std::endl;
+		std::cout << "std::string \t\t\t-> " << time << "\t" << a.length() << std::endl;
 	}
 }
 
@@ -64,8 +64,10 @@ int main()
 	using namespace detolly::string;
 
 	string a = "$5Th$5omas er$5 en$5 kar som $5ikke sk$5al så $5mye$5";
-	a -= string("$5");
-	printf(a.chars());
+	a -= "$5";
+	a += " a";
+	a *= 2;
+	printf("%s\n", a.chars());
 
 	//Test();
 

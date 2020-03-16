@@ -1,0 +1,6 @@
+#!/bin/bash
+
+g++ -c string.cpp -o bin/lib/string.o
+g++ -c main.cpp -o bin/main.o
+g++ bin/lib/string.o bin/main.o -o stringtest
+

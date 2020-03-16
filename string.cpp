@@ -17,22 +17,22 @@ inline int strlen(const char* chars) {
 */
 
 
-string::string()
-	: m_buffer(nullptr) 
+string::string() :
+	m_buffer(nullptr) 
 {
 	m_buffer = new char[m_bufferSize];
 	m_length = 0;
 	memset(m_buffer, 0, m_bufferSize);
 }
 
-string::string(const string& string)
-	: m_buffer(nullptr)
+string::string(const string& string) :
+	m_buffer(nullptr)
 {
-	m_bufferSize = string.m_bufferSize;
-	m_buffer = new char[m_bufferSize];
-	memset(m_buffer, 0, m_bufferSize);
-	memcpy(m_buffer, string.m_buffer, string.m_length);
-	m_length = string.m_length;
+	this->m_bufferSize = string.m_bufferSize;
+	this->m_buffer = new char[this->m_bufferSize];
+	memset(m_buffer, 0, this->m_bufferSize);
+	memcpy(this->m_buffer, string.m_buffer, string.m_length);
+	this->m_length = string.m_length;
 }
 
 string::string(const char* chars)
@@ -52,9 +52,9 @@ string::~string() {
 }
 
 // out of order kekw
-//string::operator const char* () {
-//	return m_buffer;
-//}
+string::operator const char* () {
+	return m_buffer;
+}
 
 
 string& string::operator=(const char* chars) {
@@ -210,16 +210,16 @@ string& string::operator*=(unsigned times) {
 void string::createOrExpandBufferFromChars(const char* chars)
 {
 	int len = strlen(chars);
-	if (len < m_bufferSize) {
-		m_buffer = new char[m_bufferSize];
-		memset(m_buffer, 0, m_bufferSize);
-		memcpy(m_buffer, chars, len);
-		m_length = len;
+	if (len < this->m_bufferSize) {
+		this->m_buffer = new char[this->m_bufferSize];
+		memset(this->m_buffer, 0, this->m_bufferSize);
+		memcpy(this->m_buffer, chars, len);
+		this->m_length = len;
 	}
 	else {
 		expand_buffer(len);
-		memcpy(m_buffer, chars, len);
-		m_length = len;
+		memcpy(this->m_buffer, chars, len);
+		this->m_length = len;
 	}
 }
 
